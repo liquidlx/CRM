@@ -11,10 +11,65 @@ datasource db {
 }
 
 model Users {
-  id          String      @id @default(uuid())      
+  id        String    @id @default(uuid())
+  name      String
+  email     String
+  password  String
+  createdAt DateTime? @default(now()) @map(name: "created_at")
+  updatedAt DateTime? @updatedAt @map(name: "updated_at")
+  stores    Stores[]
+  role      String?
+}
+
+model Companies {
+  id        String    @id @default(uuid())
+  name      String
+  cnpj      String    @unique(map: "Company_cnpj_unique_constraint")
+  createdAt DateTime? @default(now()) @map(name: "created_at")
+  stores    Stores[]
+}
+
+model Customers {
+  id         String    @id @default(uuid())
+  name       String
+  email      String
+  phone      String
+  postalCode String?
+  cpf        String?
+  createdAt  DateTime? @default(now()) @map(name: "created_at")
+  updatedAt  DateTime? @updatedAt @map(name: "updated_at")
+  sales      Sales[]
+
+  @@unique([email, phone, cpf])
+}
+
+model Sales {
+  id          String     @id @default(uuid())
+  createdAt   DateTime?  @default(now()) @map(name: "created_at")
+  price       Float
+  Customers   Customers? @relation(fields: [customersId], references: [id])
+  customersId String?
+  Sellers     Sellers?   @relation(fields: [sellersId], references: [id])
+  sellersId   String?
+}
+
+model Sellers {
+  id        String    @id @default(uuid())
+  createdAt DateTime? @default(now()) @map(name: "created_at")
+  name      String
+  email     String
+  phone     String
+  cpf       String
+  sales     Sales[]
+}
+
+model Stores {
+  id          String     @id @default(uuid())
+  createdAt   DateTime?  @default(now()) @map(name: "created_at")
+  cnpj        String
   name        String
-  email       String  
-  password    String
-  createdAt   DateTime?   @default(now()) @map(name: "created_at")
-  updatedAt   DateTime?   @updatedAt @map(name: "updated_at")
+  Users       Users?     @relation(fields: [usersId], references: [id])
+  usersId     String?
+  Companies   Companies? @relation(fields: [companiesId], references: [id])
+  companiesId String?
 }

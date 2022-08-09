@@ -11,6 +11,7 @@ export const name = 'John Doe';
 export const email = 'johndoe@test.com';
 export const password = 'password_test';
 export const passwordEncrypted = '$2a$08$V4hmDON/rzhN5wc56xWg0OWsONW9lBedEGzddTbaeU.xmOEGIKRBK';
+export const role = 'admin'
 export const updatedAt = new Date();
 export const createdAt = new Date();
 
@@ -20,6 +21,7 @@ export const mockUser: Users = {
     email,
     password: passwordEncrypted,
     updatedAt,
+    role,
     createdAt
 }
 
