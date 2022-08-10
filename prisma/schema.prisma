@@ -13,7 +13,7 @@ datasource db {
 model Users {
   id        String    @id @default(uuid())
   name      String
-  email     String
+  email     String    @unique(map: "Users_email_unique_constraint")
   password  String
   createdAt DateTime? @default(now()) @map(name: "created_at")
   updatedAt DateTime? @updatedAt @map(name: "updated_at")
@@ -32,10 +32,10 @@ model Companies {
 model Customers {
   id         String    @id @default(uuid())
   name       String
-  email      String
+  email      String    @unique(map: "Customers_email_unique_constraint")
   phone      String
   postalCode String?
-  cpf        String?
+  cpf        String?   @unique(map: "Customers_cpf_unique_constraint")
   createdAt  DateTime? @default(now()) @map(name: "created_at")
   updatedAt  DateTime? @updatedAt @map(name: "updated_at")
   sales      Sales[]
@@ -68,8 +68,7 @@ model Stores {
   createdAt   DateTime?  @default(now()) @map(name: "created_at")
   cnpj        String
   name        String
-  Users       Users?     @relation(fields: [usersId], references: [id])
-  usersId     String?
+  Users       Users[]
   Companies   Companies? @relation(fields: [companiesId], references: [id])
   companiesId String?
 }
