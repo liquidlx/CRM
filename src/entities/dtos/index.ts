@@ -1,3 +1,4 @@
-export * from './CompaniesDto';
-export * from './UserDto';
-export * from './StoresDto'
+export * from './companiesDto';
+export * from './userDto';
+export * from './storesDto';
+export * from './customersDto';

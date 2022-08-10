@@ -1,6 +1,6 @@
 import { Users } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
-import { UserDto } from 'src/entities/dtos/UserDto';
+import { UserDto } from 'src/entities/dtos/userDto';
 
 export const idList = [
     '2fe037a7-d70c-4fb3-b94f-318b138cf5c6',

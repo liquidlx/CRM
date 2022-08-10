@@ -1,7 +1,7 @@
 export class UserDto {
-    id?: string;
-    name: string;
-    email: string;
-    createdAt: Date | null;
-    updatedAt: Date | null;
+  id?: string;
+  name: string;
+  email: string;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }

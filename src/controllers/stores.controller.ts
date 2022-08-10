@@ -1,37 +1,46 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Patch, Post } from "@nestjs/common";
-import { Companies } from "@prisma/client";
-import { PostStoresRequest } from "src/entities/requests";
-import { StoresService } from "src/services/stores.service";
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { Companies } from '@prisma/client';
+import { PostStoresRequest } from 'src/entities/requests';
+import { StoresService } from 'src/services';
 
 @Controller('stores')
 export class StoresController {
-    constructor(private readonly storesService: StoresService) { }
+  constructor(private readonly storesService: StoresService) {}
 
-    @Get(':id')
-    async find(@Param('id') id: string): Promise<Companies | null> {
-        return this.storesService.findOne({ id });
-    }
+  @Get(':id')
+  async find(@Param('id') id: string): Promise<Companies | null> {
+    return this.storesService.findOne({ id });
+  }
 
-    @Get()
-    async findAll(): Promise<Companies[] | null> {
-        return this.storesService.findAll({})
-    }
+  @Get()
+  async findAll(): Promise<Companies[] | null> {
+    return this.storesService.findAll({});
+  }
 
-    @Post()
-    async create(@Body() body: PostStoresRequest): Promise<Companies> {
-        const {data} = body;
-        return this.storesService.create(data);
-    }
+  @Post()
+  async create(@Body() body: PostStoresRequest): Promise<Companies> {
+    const { data } = body;
+    return this.storesService.create(data);
+  }
 
-    @Delete(':id')
-    @HttpCode(204)
-    async delete(@Param('id') id: string): Promise<Companies | null> {
-        return this.storesService.delete({ id });
-    }
+  @Delete(':id')
+  @HttpCode(204)
+  async delete(@Param('id') id: string): Promise<Companies | null> {
+    return this.storesService.delete({ id });
+  }
 
-    @Patch()
-    async update(@Body() body: PostStoresRequest): Promise<Companies | null> {
-        const {data} = body;
-        return this.storesService.update(data);
-    }
+  @Patch()
+  async update(@Body() body: PostStoresRequest): Promise<Companies | null> {
+    const { data } = body;
+    return this.storesService.update(data);
+  }
 }
