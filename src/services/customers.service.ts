@@ -82,8 +82,14 @@ export class CustomersService {
    * @returns Customers Array
    */
   async findAll(where: Prisma.CustomersWhereInput): Promise<Customers[]> {
-    return this.prisma.customers.findMany({
+    return await this.prisma.customers.findMany({
       where,
     });
+  }
+
+  async countCustomers(): Promise<number> {
+    const data = await this.prisma.customers.count();
+    console.log('customers count', data);
+    return data;
   }
 }

@@ -44,13 +44,16 @@ model Customers {
 }
 
 model Sales {
-  id          String     @id @default(uuid())
-  createdAt   DateTime?  @default(now()) @map(name: "created_at")
+  id          String    @id @default(uuid())
+  createdAt   DateTime? @default(now()) @map(name: "created_at")
   price       Float
-  Customers   Customers? @relation(fields: [customersId], references: [id])
-  customersId String?
-  Sellers     Sellers?   @relation(fields: [sellersId], references: [id])
-  sellersId   String?
+  Customers   Customers @relation(fields: [customersId], references: [id])
+  customersId String
+  Sellers     Sellers   @relation(fields: [sellersId], references: [id])
+  sellersId   String
+  Stores      Stores?   @relation(fields: [storesId], references: [id])
+  storesId    String?
+  newCustomer Boolean   @default(false)
 }
 
 model Sellers {
@@ -69,6 +72,7 @@ model Stores {
   cnpj        String
   name        String
   Users       Users[]
-  Companies   Companies? @relation(fields: [companiesId], references: [id])
+  Companies   Companies? @relation(fields: [companiesId], references: [id]) 
   companiesId String?
+  sales       Sales[]
 }

@@ -77,9 +77,37 @@ export class SalesService {
    * @param where
    * @returns Sale Array
    */
-  async findAll(where: Prisma.SalesWhereInput): Promise<Sales[]> {
+  async findAll(where: Prisma.SalesWhereInput): Promise<any[]> {
     return this.prisma.sales.findMany({
       where,
+      include: {
+        Customers: {
+          select: {
+            name: true,
+          },
+        },
+        Sellers: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
+  }
+
+  async countSales(where: Prisma.SalesWhereInput): Promise<number> {
+    const response = await this.prisma.sales.count();
+    console.log('count', response);
+    return response;
+  }
+
+  async sumRevenue(where: Prisma.SalesWhereInput): Promise<number> {
+    const data = await this.prisma.sales.aggregate({
+      _sum: {
+        price: true,
+      },
+    });
+
+    return data?._sum.price || 0;
   }
 }

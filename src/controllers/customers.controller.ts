@@ -7,23 +7,24 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { Customers } from '@prisma/client';
-import { PostCustomersAttributes } from 'src/entities/requests';
+import { filter } from 'rxjs';
+import { PostCustomersAttributes, QueryCustomers } from 'src/entities/requests';
 import { CustomersService } from 'src/services';
 
 @Controller('customers')
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
-  @Get(':id')
-  async find(@Param('id') id: string): Promise<Customers | null> {
-    return this.customersService.findOne({ id });
-  }
-
   @Get()
-  async findAll(): Promise<Customers[] | null> {
-    return this.customersService.findAll({});
+  async findAll(@Query() query: any): Promise<Customers[] | null> {
+    let { filter } = query;
+    filter = JSON.parse(filter);
+
+    console.log(query);
+    return this.customersService.findAll(filter || {});
   }
 
   @Post()
@@ -44,5 +45,15 @@ export class CustomersController {
   ): Promise<Customers | null> {
     const { data } = body;
     return this.customersService.update(data);
+  }
+
+  @Get('/count')
+  async getCountCustomers(): Promise<number> {
+    return this.customersService.countCustomers();
+  }
+
+  @Get(':id')
+  async find(@Param('id') id: string): Promise<Customers | null> {
+    return this.customersService.findOne({ id });
   }
 }
