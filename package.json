@@ -24,6 +24,7 @@
     "seed": "ts-node prisma/seed.ts"
   },
   "dependencies": {
+    "@nestjs/cli": "^9.0.0",
     "@nestjs/common": "^9.0.9",
     "@nestjs/core": "^9.0.9",
     "bcrypt": "^5.0.1",
