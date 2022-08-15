@@ -1,4 +1,4 @@
-export default class SalesDto {
+export class SalesDto {
   id?: string;
   createdAt?: Date;
   price: number;

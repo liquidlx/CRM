@@ -1,4 +1,4 @@
-export default class StoresDto {
+export class StoresDto {
   id: string;
   cnpj: string;
   name: string;

@@ -1,4 +1,4 @@
-export default class CompaniesDto {
+export class CompaniesDto {
   id?: string;
   name: string;
   cnpj: string;
