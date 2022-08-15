@@ -9,6 +9,6 @@ async function bootstrap() {
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
