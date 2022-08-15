@@ -1,4 +1,4 @@
-export class SellersDto {
+export default class SellersDto {
   id?: string;
   createdAt?: Date | null;
   name: string;
