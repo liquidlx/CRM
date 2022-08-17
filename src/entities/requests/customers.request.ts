@@ -1,12 +1,26 @@
 import { Type } from 'class-transformer';
-import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
 
 export class CustomersAttributes {
+  @IsUUID()
+  @IsOptional()
   id?: string;
+
+  @IsString()
   name: string;
+
+  @IsString()
   email: string;
+
+  @IsString()
   phone: string;
+
+  @IsString()
+  @IsOptional()
   postalCode?: string | null;
+
+  @IsString()
+  @IsOptional()
   cpf?: string | null;
 }
 
