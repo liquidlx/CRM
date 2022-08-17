@@ -68,10 +68,8 @@ export class SellersService {
    * @param where
    * @returns Seller
    */
-  async findById(
-    where: Prisma.SellersWhereUniqueInput,
-  ): Promise<Sellers | null> {
-    return this.prisma.sellers.findUnique({
+  async findById(where: Prisma.SellersWhereInput): Promise<Sellers | null> {
+    return this.prisma.sellers.findFirst({
       where,
     });
   }

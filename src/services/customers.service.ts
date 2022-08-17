@@ -70,10 +70,8 @@ export class CustomersService {
    * @param where
    * @returns Customer
    */
-  async findOne(
-    where: Prisma.CustomersWhereUniqueInput,
-  ): Promise<Customers | null> {
-    return this.prisma.customers.findUnique({
+  async findOne(where: Prisma.CustomersWhereInput): Promise<Customers | null> {
+    return this.prisma.customers.findFirst({
       where,
     });
   }

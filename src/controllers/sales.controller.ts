@@ -18,7 +18,7 @@ export class SalesController {
 
   @Get()
   async findAll(): Promise<GetSalesAttributes[] | null> {
-    const sales = await this.salesService.findAll({});
+    const sales = await this.salesService.findAll({ deleted: false });
 
     return sales.map(({ Customers, Sellers, ...sale }) => {
       return {
@@ -49,17 +49,16 @@ export class SalesController {
 
   @Get('/count')
   async getCountSales(): Promise<number> {
-    console.log('COUNT');
-    return this.salesService.countSales({});
+    return this.salesService.countSales({ deleted: false });
   }
 
   @Get('/revenue')
   async getRevenue(): Promise<number> {
-    return this.salesService.sumRevenue({});
+    return this.salesService.sumRevenue({ deleted: false });
   }
 
   @Get(':id')
   async find(@Param('id') id: string): Promise<Sales | null> {
-    return this.salesService.findById({ id });
+    return this.salesService.findById({ id, deleted: false });
   }
 }

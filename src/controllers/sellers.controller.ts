@@ -18,12 +18,12 @@ export class SellersConstroller {
 
   @Get(':id')
   async find(@Param('id') id: string): Promise<Sellers | null> {
-    return this.sellersService.findById({ id });
+    return this.sellersService.findById({ id, deleted: false });
   }
 
   @Get()
   async findAll(): Promise<Sellers[] | null> {
-    return this.sellersService.findAll({});
+    return this.sellersService.findAll({ deleted: false });
   }
 
   @Post()

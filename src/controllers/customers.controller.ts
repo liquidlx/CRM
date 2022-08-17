@@ -21,10 +21,10 @@ export class CustomersController {
   @Get()
   async findAll(@Query() query: any): Promise<Customers[] | null> {
     let { filter } = query;
-    filter = JSON.parse(filter);
 
-    console.log(query);
-    return this.customersService.findAll(filter || {});
+    filter = filter ? JSON.parse(filter) : {};
+
+    return this.customersService.findAll({ ...filter, deleted: false } || {});
   }
 
   @Post()
@@ -54,6 +54,6 @@ export class CustomersController {
 
   @Get(':id')
   async find(@Param('id') id: string): Promise<Customers | null> {
-    return this.customersService.findOne({ id });
+    return this.customersService.findOne({ id, deleted: false });
   }
 }

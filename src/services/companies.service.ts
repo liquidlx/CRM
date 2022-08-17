@@ -67,10 +67,8 @@ export class CompaniesService {
    * @param where
    * @returns Company
    */
-  async findOne(
-    where: Prisma.CompaniesWhereUniqueInput,
-  ): Promise<Companies | null> {
-    return this.prisma.companies.findUnique({
+  async findOne(where: Prisma.CompaniesWhereInput): Promise<Companies | null> {
+    return this.prisma.companies.findFirst({
       where,
       select: {
         id: true,

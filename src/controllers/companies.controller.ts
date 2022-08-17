@@ -18,12 +18,14 @@ export class CompaniesController {
 
   @Get(':id')
   async find(@Param('id') id: string): Promise<Companies | null> {
-    return this.companiesService.findOne({ id });
+    return this.companiesService.findOne({ id, deleted: false });
   }
 
   @Get()
   async findAll(): Promise<Companies[] | null> {
-    return this.companiesService.findAll({});
+    return this.companiesService.findAll({
+      deleted: false,
+    });
   }
 
   @Post()
