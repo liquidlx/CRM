@@ -54,7 +54,10 @@ export class StoresService {
    * @returns Store
    */
   async delete(where: Prisma.StoresWhereUniqueInput): Promise<Stores | null> {
-    return this.prisma.stores.delete({
+    return this.prisma.stores.update({
+      data: {
+        deleted: true,
+      },
       where,
     });
   }

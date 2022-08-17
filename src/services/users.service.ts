@@ -61,7 +61,10 @@ export class UsersService {
    * @returns User
    */
   async delete(where: Prisma.UsersWhereUniqueInput): Promise<Users | null> {
-    return this.prisma.users.delete({
+    return this.prisma.users.update({
+      data: {
+        deleted: true,
+      },
       where,
     });
   }

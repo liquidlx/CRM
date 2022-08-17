@@ -48,7 +48,7 @@ export class CustomersService {
   }
 
   /**
-   * Delete a Customer by id
+   * Set Customer deleted column to true
    *
    * @param where
    * @returns Customer
@@ -56,7 +56,10 @@ export class CustomersService {
   async delete(
     where: Prisma.CustomersWhereUniqueInput,
   ): Promise<Customers | null> {
-    return this.prisma.customers.delete({
+    return this.prisma.customers.update({
+      data: {
+        deleted: true,
+      },
       where,
     });
   }

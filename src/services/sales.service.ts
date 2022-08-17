@@ -54,7 +54,10 @@ export class SalesService {
    * @returns Sale
    */
   async delete(where: Prisma.SalesWhereUniqueInput): Promise<Sales | null> {
-    return this.prisma.sales.delete({
+    return this.prisma.sales.update({
+      data: {
+        deleted: true,
+      },
       where,
     });
   }

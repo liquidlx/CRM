@@ -77,6 +77,7 @@ export class CompaniesService {
         cnpj: true,
         name: true,
         createdAt: true,
+        deleted: true,
       },
     });
   }
@@ -95,6 +96,7 @@ export class CompaniesService {
         cnpj: true,
         name: true,
         createdAt: true,
+        deleted: true,
       },
     });
   }

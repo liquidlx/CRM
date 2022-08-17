@@ -19,6 +19,7 @@ model Users {
   updatedAt DateTime? @updatedAt @map(name: "updated_at")
   stores    Stores[]
   role      String?
+  deleted   Boolean   @default(false)
 }
 
 model Companies {
@@ -27,6 +28,7 @@ model Companies {
   cnpj      String    @unique(map: "Company_cnpj_unique_constraint")
   createdAt DateTime? @default(now()) @map(name: "created_at")
   stores    Stores[]
+  deleted   Boolean   @default(false)
 }
 
 model Customers {
@@ -39,6 +41,7 @@ model Customers {
   createdAt  DateTime? @default(now()) @map(name: "created_at")
   updatedAt  DateTime? @updatedAt @map(name: "updated_at")
   sales      Sales[]
+  deleted    Boolean   @default(false)
 
   @@unique([email, phone, cpf])
 }
@@ -54,6 +57,7 @@ model Sales {
   Stores      Stores?   @relation(fields: [storesId], references: [id])
   storesId    String?
   newCustomer Boolean   @default(false)
+  deleted     Boolean   @default(false)
 }
 
 model Sellers {
@@ -64,6 +68,7 @@ model Sellers {
   phone     String
   cpf       String
   sales     Sales[]
+  deleted   Boolean    @default(false)
 }
 
 model Stores {
@@ -75,4 +80,5 @@ model Stores {
   Companies   Companies? @relation(fields: [companiesId], references: [id]) 
   companiesId String?
   sales       Sales[]
+  deleted     Boolean    @default(false)
 }
