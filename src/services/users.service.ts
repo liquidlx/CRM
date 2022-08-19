@@ -75,8 +75,8 @@ export class UsersService {
    * @param where
    * @returns User
    */
-  async findOne(where: Prisma.UsersWhereUniqueInput): Promise<UserDto | null> {
-    return this.prisma.users.findUnique({
+  async findOne(where: Prisma.UsersWhereInput): Promise<UserDto | null> {
+    return this.prisma.users.findFirst({
       where,
       select: {
         id: true,
@@ -84,6 +84,7 @@ export class UsersService {
         name: true,
         updatedAt: true,
         createdAt: true,
+        password: true,
       },
     });
   }

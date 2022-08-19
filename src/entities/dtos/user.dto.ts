@@ -4,4 +4,5 @@ export class UserDto {
   email: string;
   createdAt: Date | null;
   updatedAt: Date | null;
+  password?: string;
 }

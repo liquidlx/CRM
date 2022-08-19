@@ -9,13 +9,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { Users } from '@prisma/client';
 import { PatchUsersRequest, PostUsersRequest } from './../entities/requests';
 import { UsersService } from './../services';
 import { UserDto } from '../entities/dtos';
-import { hashPassword } from './../utils/password_hash';
+import { hashPassword } from '../utils/password-hash';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UserController {
   constructor(private readonly usersService: UsersService) {}
