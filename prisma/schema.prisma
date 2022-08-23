@@ -18,8 +18,10 @@ model Users {
   createdAt DateTime? @default(now()) @map(name: "created_at")
   updatedAt DateTime? @updatedAt @map(name: "updated_at")
   stores    Stores[]
-  role      String?
+  role      Role      @default(USER)
   deleted   Boolean   @default(false)
+
+  @@map("users")
 }
 
 model Companies {
@@ -29,6 +31,8 @@ model Companies {
   createdAt DateTime? @default(now()) @map(name: "created_at")
   stores    Stores[]
   deleted   Boolean   @default(false)
+
+  @@map("companies")
 }
 
 model Customers {
@@ -44,6 +48,7 @@ model Customers {
   deleted    Boolean   @default(false)
 
   @@unique([email, phone, cpf])
+  @@map("customers")
 }
 
 model Sales {
@@ -58,6 +63,8 @@ model Sales {
   storesId    String?
   newCustomer Boolean   @default(false)
   deleted     Boolean   @default(false)
+
+  @@map("sales")
 }
 
 model Sellers {
@@ -69,6 +76,8 @@ model Sellers {
   cpf       String
   sales     Sales[]
   deleted   Boolean    @default(false)
+
+  @@map("sellers")
 }
 
 model Stores {
@@ -81,4 +90,11 @@ model Stores {
   companiesId String?
   sales       Sales[]
   deleted     Boolean    @default(false)
+
+  @@map("stores")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
