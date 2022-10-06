@@ -8,12 +8,15 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Customers } from '@prisma/client';
 import { filter } from 'rxjs';
 import { PostCustomersAttributes, QueryCustomers } from 'src/entities/requests';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { CustomersService } from 'src/services';
 
+@UseGuards(JwtAuthGuard)
 @Controller('customers')
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}

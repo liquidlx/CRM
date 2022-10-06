@@ -1,5 +1,5 @@
 import { CacheInterceptor, CacheModule, Module } from '@nestjs/common';
-import { APP_INTERCEPTOR } from '@nestjs/core';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { jwtConstants } from './constants';
@@ -11,6 +11,7 @@ import { SalesController } from './controllers/sales.controller';
 import { SellersConstroller } from './controllers/sellers.controller';
 import { StoresController } from './controllers/stores.controller';
 import { UserController } from './controllers/users.controller';
+import { RolesGuard } from './guards/roles.guard';
 import {
   AuthService,
   CustomersService,
@@ -50,6 +51,10 @@ import { LocalStrategy } from './strategies/local.strategy';
     {
       provide: APP_INTERCEPTOR,
       useClass: CacheInterceptor,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
     AppService,
     PrismaService,
