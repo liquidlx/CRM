@@ -7,11 +7,14 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { Stores } from '@prisma/client';
 import { PostStoresRequest } from 'src/entities/requests';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { StoresService } from 'src/services';
 
+@UseGuards(JwtAuthGuard)
 @Controller('stores')
 export class StoresController {
   constructor(private readonly storesService: StoresService) {}

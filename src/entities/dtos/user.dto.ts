@@ -1,3 +1,5 @@
+import { Role, Users } from '@prisma/client';
+
 export class UserDto {
   id?: string;
   name: string;

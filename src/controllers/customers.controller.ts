@@ -8,23 +8,27 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { Customers } from '@prisma/client';
 import { filter } from 'rxjs';
 import { PostCustomersAttributes, QueryCustomers } from 'src/entities/requests';
+import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { CustomersService } from 'src/services';
 
+@UseGuards(JwtAuthGuard)
 @Controller('customers')
 export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
   @Get()
-  async findAll(@Query() query: any): Promise<Customers[] | null> {
-    let { filter } = query;
+  async findAll(@Query() query: QueryCustomers): Promise<Customers[] | null> {
+    const { filter } = query;
+    const { storesId, ...customerFilter } = filter;
 
-    filter = filter ? JSON.parse(filter) : {};
-
-    return this.customersService.findAll({ ...filter, deleted: false } || {});
+    return this.customersService.findAll(
+      { ...customerFilter, deleted: false } || {},
+    );
   }
 
   @Post()

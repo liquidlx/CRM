@@ -1,4 +1,4 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import {
   IsDate,
   IsNumber,
@@ -25,6 +25,9 @@ export class SalesAttributes {
 
   @IsUUID()
   sellersId: string;
+
+  @IsUUID()
+  storesId: string;
 }
 
 export class GetSalesAttributes {
@@ -41,4 +44,17 @@ export class PostSalesRequest {
   @ValidateNested()
   @Type(() => SalesAttributes)
   data: SalesAttributes;
+}
+
+export class SalesQueryFilter {
+  @IsString()
+  storesId: string;
+}
+
+export class SalesQuery {
+  @IsOptional()
+  @Transform(({ value }) => JSON.parse(value))
+  @ValidateNested()
+  @Type(() => SalesQueryFilter)
+  filter?: SalesQueryFilter;
 }

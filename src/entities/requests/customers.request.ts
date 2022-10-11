@@ -1,5 +1,6 @@
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { IsOptional, IsString, IsUUID, ValidateNested } from 'class-validator';
+import { JsonableValue } from 'ts-jest';
 
 export class CustomersAttributes {
   @IsUUID()
@@ -40,9 +41,14 @@ export class FilterFields {
   @IsString()
   @IsOptional()
   postalCode?: string;
+
+  @IsUUID()
+  @IsOptional()
+  storesId?: string;
 }
 
 export class QueryCustomers {
+  @Transform(({ value }) => JSON.parse(value))
   @ValidateNested()
   @Type(() => FilterFields)
   filter: FilterFields;

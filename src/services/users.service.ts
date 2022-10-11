@@ -14,14 +14,25 @@ export class UsersService {
    * @returns User
    */
   async create(data): Promise<UserDto> {
+    const { stores, ...userData } = data;
     const response = await this.prisma.users.create({
-      data,
+      data: {
+        ...userData,
+        stores: {
+          connect: stores,
+        },
+      },
       select: {
         id: true,
         email: true,
         name: true,
         updatedAt: true,
         createdAt: true,
+        stores: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
 
@@ -82,6 +93,12 @@ export class UsersService {
         id: true,
         email: true,
         name: true,
+        stores: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
         updatedAt: true,
         createdAt: true,
         password: true,
