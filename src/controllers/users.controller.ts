@@ -4,8 +4,6 @@ import {
   Delete,
   Get,
   HttpCode,
-  HttpException,
-  HttpStatus,
   Param,
   Patch,
   Post,
@@ -17,6 +15,8 @@ import { UsersService } from './../services';
 import { UserDto } from '../entities/dtos';
 import { hashPassword } from '../utils/password-hash';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { Roles } from 'src/decorators/roles.decorator';
+import { Role } from 'src/enums/role.enum';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -32,6 +32,7 @@ export class UserController {
   }
 
   @Get()
+  @Roles(Role.User)
   async findAll(): Promise<UserDto[] | null> {
     return this.usersService.findAll({});
   }

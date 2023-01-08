@@ -19,6 +19,7 @@ import {
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { SalesService } from 'src/services/sales.service';
 
+@UseGuards(JwtAuthGuard)
 @Controller('sales')
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}

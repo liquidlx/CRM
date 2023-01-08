@@ -89,20 +89,6 @@ export class UsersService {
   async findOne(where: Prisma.UsersWhereInput): Promise<UserDto | null> {
     return this.prisma.users.findFirst({
       where,
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        stores: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-        updatedAt: true,
-        createdAt: true,
-        password: true,
-      },
     });
   }
 
