@@ -25,7 +25,10 @@ export class UserController {
 
   @Get(':id')
   async find(@Param('id') id: string): Promise<UserDto | null> {
-    return this.usersService.findOne({ id });
+    const data = await this.usersService.findOne({ id });
+    if (!data) return null;
+    const { password, ...response } = data;
+    return response;
   }
 
   @Get()

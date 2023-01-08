@@ -1,9 +1,10 @@
 import { Type } from 'class-transformer';
-import { IsString, ValidateNested } from 'class-validator';
+import { IsOptional, IsString, ValidateNested } from 'class-validator';
 
 export class StoresAttributes {
   @IsString()
-  id: string;
+  @IsOptional()
+  id?: string;
 
   @IsString()
   cnpj: string;

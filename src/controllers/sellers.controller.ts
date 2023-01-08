@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Sellers } from '@prisma/client';
-import { PostSellersRequest } from 'src/entities/requests';
+import { PostSellersRequest, SellersQuery } from 'src/entities/requests';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { SellersService } from 'src/services/';
 

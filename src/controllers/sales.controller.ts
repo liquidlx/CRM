@@ -7,10 +7,15 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Sales } from '@prisma/client';
-import { GetSalesAttributes, PostSalesRequest } from 'src/entities/requests';
+import {
+  GetSalesAttributes,
+  PostSalesRequest,
+  SalesQuery,
+} from 'src/entities/requests';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
 import { SalesService } from 'src/services/sales.service';
 
@@ -20,8 +25,11 @@ export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
   @Get()
-  async findAll(): Promise<GetSalesAttributes[] | null> {
-    const sales = await this.salesService.findAll({ deleted: false });
+  async findAll(
+    @Query() { filter }: SalesQuery,
+  ): Promise<GetSalesAttributes[] | null> {
+    const { storesId } = filter || {};
+    const sales = await this.salesService.findAll({ deleted: false, storesId });
 
     return sales.map(({ Customers, Sellers, ...sale }) => {
       return {
@@ -51,13 +59,15 @@ export class SalesController {
   }
 
   @Get('/count')
-  async getCountSales(): Promise<number> {
-    return this.salesService.countSales({ deleted: false });
+  async getCountSales(@Query() { filter }: SalesQuery): Promise<number> {
+    const { storesId } = filter || {};
+    return this.salesService.countSales({ deleted: false, storesId });
   }
 
   @Get('/revenue')
-  async getRevenue(): Promise<number> {
-    return this.salesService.sumRevenue({ deleted: false });
+  async getRevenue(@Query() { filter }: SalesQuery): Promise<number> {
+    const { storesId } = filter || {};
+    return this.salesService.sumRevenue({ deleted: false, storesId });
   }
 
   @Get(':id')

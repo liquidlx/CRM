@@ -22,12 +22,13 @@ export class CustomersController {
   constructor(private readonly customersService: CustomersService) {}
 
   @Get()
-  async findAll(@Query() query: any): Promise<Customers[] | null> {
-    let { filter } = query;
+  async findAll(@Query() query: QueryCustomers): Promise<Customers[] | null> {
+    const { filter } = query;
+    const { storesId, ...customerFilter } = filter;
 
-    filter = filter ? JSON.parse(filter) : {};
-
-    return this.customersService.findAll({ ...filter, deleted: false } || {});
+    return this.customersService.findAll(
+      { ...customerFilter, deleted: false } || {},
+    );
   }
 
   @Post()

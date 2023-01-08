@@ -1,4 +1,17 @@
-import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+
+export class UserStoresAttributes {
+  @IsOptional()
+  @IsUUID(4)
+  id?: string;
+}
 
 export class UsersAttributes {
   @IsOptional()
@@ -16,6 +29,11 @@ export class UsersAttributes {
   @IsNotEmpty()
   @IsString()
   password: string;
+
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => UserStoresAttributes)
+  stores: UserStoresAttributes[];
 }
 
 export class PostUsersRequest extends UsersAttributes {}

@@ -99,8 +99,8 @@ export class SalesService {
   }
 
   async countSales(where: Prisma.SalesWhereInput): Promise<number> {
-    const response = await this.prisma.sales.count();
-    console.log('count', response);
+    const response = await this.prisma.sales.count({ where });
+
     return response;
   }
 
@@ -109,6 +109,7 @@ export class SalesService {
       _sum: {
         price: true,
       },
+      where,
     });
 
     return data?._sum.price || 0;
