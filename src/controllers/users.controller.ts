@@ -15,11 +15,15 @@ import { UsersService } from './../services';
 import { UserDto } from '../entities/dtos';
 import { hashPassword } from '../utils/password-hash';
 import { JwtAuthGuard } from 'src/guards/jwt-auth.guard';
+import { MailerService } from '@nestjs-modules/mailer';
+import { generate } from 'generate-password';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UserController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly mailerService: MailerService) {}
 
   @Get(':id')
   async find(@Param('id') id: string): Promise<UserDto | null> {
@@ -38,9 +42,23 @@ export class UserController {
   async create(@Body() {data}: PostUsersRequest): Promise<UserDto> {
     let { password, stores } = data;
 
-    if(!password){
-      password = "SmartRetention@User";
-    }
+    // Generate random password
+    password = generate({
+      length: 10,
+      numbers: true
+    });
+    
+    // Send password to user email.
+    await this.mailerService
+      .sendMail({
+        to: data.email, // list of receivers
+        from: 'leo@smartretention.com.br', // sender address
+        subject: 'Seja bem-vindo(a) a Smart Retention', // Subject line
+        text: `Olá, sua conta foi criado. Sua senha é esta: ${password}`, // plaintext body
+        html: `<h1>Olá, sua conta foi criada</h1><br/><h2>Utilize esta senha para logar na plataforma: ${password}</h2>`, // HTML body content
+      });
+
+
     // encrypt password
     data.password = await hashPassword(password);
     // CHANGE: This is default now. But the user should have an option to add new Admin users.

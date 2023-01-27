@@ -1,3 +1,4 @@
+import { MailerModule } from '@nestjs-modules/mailer';
 import { CacheInterceptor, CacheModule, Module } from '@nestjs/common';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
@@ -35,6 +36,19 @@ import { LocalStrategy } from './strategies/local.strategy';
         expiresIn: '1200s',
       },
     }),
+    MailerModule.forRoot({
+      transport: 'smtps://leo@smartretention.com.br:Smart@2022@smtp.titan.email',
+      defaults: {
+        from: '"nest-modules" <modules@nestjs.com>',
+      },
+      template: {
+        dir: __dirname + '/templates',
+        options: {
+          strict: true,
+        },
+      },
+    }),
+
   ],
   controllers: [
     AppController,
