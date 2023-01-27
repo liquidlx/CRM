@@ -19,8 +19,8 @@ export class UsersService {
       data: {
         ...userData,
         stores: {
-          connect: stores,
-        },
+          connect: stores
+        }
       },
       select: {
         id: true,
@@ -119,6 +119,7 @@ export class UsersService {
         id: true,
         email: true,
         name: true,
+        role: true,
         updatedAt: true,
         createdAt: true,
       },

@@ -4,14 +4,12 @@ import {
   Delete,
   Get,
   HttpCode,
-  HttpException,
-  HttpStatus,
   Param,
   Patch,
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { Users } from '@prisma/client';
+import { Role, Users } from '@prisma/client';
 import { PatchUsersRequest, PostUsersRequest } from './../entities/requests';
 import { UsersService } from './../services';
 import { UserDto } from '../entities/dtos';
@@ -37,11 +35,21 @@ export class UserController {
   }
 
   @Post()
-  async create(@Body() body: PostUsersRequest): Promise<UserDto> {
-    // encrypt password
-    body.password = await hashPassword(body.password);
+  async create(@Body() {data}: PostUsersRequest): Promise<UserDto> {
+    let { password, stores } = data;
 
-    return this.usersService.create(body);
+    if(!password){
+      password = "SmartRetention@User";
+    }
+    // encrypt password
+    data.password = await hashPassword(password);
+    // CHANGE: This is default now. But the user should have an option to add new Admin users.
+    data.role = Role.USER;
+
+    const storesObj = stores.map(store => ({id: store}))
+
+
+    return this.usersService.create({...data, stores: storesObj});
   }
 
   @Delete(':id')

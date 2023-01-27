@@ -1,17 +1,13 @@
+import { Role } from '@prisma/client';
 import { Type } from 'class-transformer';
 import {
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsUUID,
   ValidateNested,
 } from 'class-validator';
-
-export class UserStoresAttributes {
-  @IsOptional()
-  @IsUUID(4)
-  id?: string;
-}
 
 export class UsersAttributes {
   @IsOptional()
@@ -26,16 +22,24 @@ export class UsersAttributes {
   @IsString()
   email: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  password: string;
+  password?: string;
+
+  // CHANGE: This needs to be required. 
+  @IsOptional()
+  @IsEnum(Role)
+  role: Role;
 
   @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => UserStoresAttributes)
-  stores: UserStoresAttributes[];
+  stores: string[];
 }
 
-export class PostUsersRequest extends UsersAttributes {}
+export class PostUsersRequest {
+  @IsNotEmpty()
+  @ValidateNested()
+  @Type(() => UsersAttributes)
+  data: UsersAttributes;
+}
 
 export class PatchUsersRequest extends UsersAttributes {}
